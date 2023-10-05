@@ -17,7 +17,18 @@ const phonebookSlice = createSlice({
   reducers: {
     addContact: {
       reducer(state, action) {
-        state.contacts.push(action.payload);
+        const { id, name, number } = action.payload;
+        const lowerCaseName = name.toLowerCase();
+
+       
+        const isNameExists = state.contacts.some(
+          contact => contact.name.toLowerCase() === lowerCaseName
+        );
+
+       
+        if (!isNameExists) {
+          state.contacts.push({ id, name, number });
+        }
       },
       prepare(name, number) {
         return {
