@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
+import { isEqual } from 'lodash';
+import { toast } from 'react-toastify';
 
 const initialState = {
   contacts: [
@@ -20,14 +22,16 @@ const phonebookSlice = createSlice({
         const { id, name, number } = action.payload;
         const lowerCaseName = name.toLowerCase();
 
-       
         const isNameExists = state.contacts.some(
-          contact => contact.name.toLowerCase() === lowerCaseName
+          contact => isEqual(contact.name.toLowerCase(), lowerCaseName)
         );
 
-       
         if (!isNameExists) {
           state.contacts.push({ id, name, number });
+      
+          toast.success('Contact added successfully');
+        } else {
+            toast.error('A contact with this name already exists');
         }
       },
       prepare(name, number) {

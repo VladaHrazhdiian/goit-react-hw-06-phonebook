@@ -1,7 +1,5 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -20,7 +18,11 @@ const ContactForm = () => {
     const name = form.name.value;
     const number = form.number.value;
 
-    if (contacts.some(contact => contact.name === name)) {
+     const isNameExists = contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (isNameExists) {
       Notify.failure(`${name} is already in contacts`);
       return;
     }
